@@ -1,12 +1,19 @@
 #Download all the files specified in data/filenames
+echo "Downloading files"
 for url in $(cat data/urls) 
 do
     bash scripts/download.sh $url data
 done
 
+echo "Uncompressing files"
+gunzip -k data/*.fastq.gz
+
+
 # Download the contaminants fasta file, uncompress it, and
 # filter to remove all small nuclear RNAs
-bash scripts/download.sh <contaminants_url> res yes #TODO
+bash scripts/download.sh https://bioinformatics.cnio.es/data/courses/decont/contaminants.fasta.gz res
+gunzip res/contaminants.fasta.gz
+grep 
 
 # Index the contaminants file
 bash scripts/index.sh res/contaminants.fasta res/contaminants_idx

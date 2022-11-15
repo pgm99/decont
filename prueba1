@@ -1,5 +1,10 @@
-for url in $(cat data/urls)
+echo "Downloading files"
+for url in $(cat data/urls) 
 do
-    bash scripts/download.sh $url data yes
+    bash scripts/download.sh $url data
 done
+
+echo "Uncompressing files"
+gunzip -k data/*.fastq.gz
+
 

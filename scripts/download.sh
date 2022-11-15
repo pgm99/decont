@@ -20,8 +20,8 @@
 
 if [ "$3" == "yes" ]
 then
-        wget -P $2 $1 |gunzip -k -l
+        wget -nc -P $2 $1
 else
-        wget -P $2 $1
+        wget -nc -P $2 $1
 fi
 
