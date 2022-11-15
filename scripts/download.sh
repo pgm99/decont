@@ -16,3 +16,12 @@
 #   CCAGGATTTACAGACTTTAAA
 #
 #   If $4 == "another" only the **first two sequence** should be output
+
+
+if [ "$3" == "yes" ]
+then
+        wget -P $2 $1 |gunzip -k -l
+else
+        wget -P $2 $1
+fi
+
