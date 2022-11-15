@@ -7,7 +7,8 @@ done
 
 echo "Uncompressing files"
 gunzip -k data/*.fastq.gz
-
+mkdir -p data/uncompressed
+mv data/*.fastq data/uncompressed
 
 # Download the contaminants fasta file, uncompress it, and
 # filter to remove all small nuclear RNAs
