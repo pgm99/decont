@@ -10,14 +10,15 @@ gunzip -k data/*.fastq.gz
 mkdir -p data/uncompressed
 mv data/*.fastq data/uncompressed
 
-# Download the contaminants fasta file, uncompress it, and
+# Download the contaminants fasta file, uncompress it, and 
 # filter to remove all small nuclear RNAs
 bash scripts/download.sh https://bioinformatics.cnio.es/data/courses/decont/contaminants.fasta.gz res
-gunzip res/contaminants.fasta.gz
-grep 
+gunzip -k res/contaminants.fasta.gz
+sed /'small nuclear'/d res/contaminants.fasta > res/clean_contaminants.fasta
 
 # Index the contaminants file
-bash scripts/index.sh res/contaminants.fasta res/contaminants_idx
+echo "Creating contaminants STAR index"
+bash scripts/index.sh res/clean_contaminants.fasta res/contaminants_index
 
 # Merge the samples into a single file
 for sid in $(<list_of_sample_ids>) #TODO
