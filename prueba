@@ -1,0 +1,6 @@
+echo "Merging uncompressed samples files"
+mkdir -p out/merged
+for sid in $(find data/uncompressed -name *.fastq -exec basename {} \; | cut -d"-" -f1)
+do
+    bash scripts/merge_fastqs.sh data/uncompressed out/merged $sid
+done

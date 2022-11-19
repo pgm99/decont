@@ -1,9 +1,18 @@
+#TODO list
+#Meter comprobaciones de argumentos y errores
+#Poner los echos más bonitos
+#Poner todos los mkdir previos por si acaso
+
+
+
 #Download all the files specified in data/filenames
 echo "Downloading files"
+mkdir -p data
 for url in $(cat data/urls) 
 do
     bash scripts/download.sh $url data
 done
+#Uncompress all downloaded files
 
 echo "Uncompressing files"
 gunzip -k data/*.fastq.gz
@@ -21,9 +30,11 @@ echo "Creating contaminants STAR index"
 bash scripts/index.sh res/clean_contaminants.fasta res/contaminants_index
 
 # Merge the samples into a single file
-for sid in $(<list_of_sample_ids>) #TODO
+echo "Merging uncompressed samples files"
+mkdir -p out/merged
+for sid in $(find data/uncompressed -name *.fastq -exec basename {} \; | cut -d"-" -f1) #TODO
 do
-    bash scripts/merge_fastqs.sh data out/merged $sid
+    bash scripts/merge_fastqs.sh data/uncompressed out/merged $sid
 done
 
 # TODO: run cutadapt for all merged files
