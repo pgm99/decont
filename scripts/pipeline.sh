@@ -32,14 +32,15 @@ bash scripts/index.sh res/clean_contaminants.fasta res/contaminants_index
 # Merge the samples into a single file
 echo "Merging uncompressed samples files"
 mkdir -p out/merged
-for sid in $(find data/uncompressed -name *.fastq -exec basename {} \; | cut -d"-" -f1) #TODO
+for sid in $(find data/uncompressed -name *.fastq -exec basename {} \; | cut -d"-" -f1)
 do
     bash scripts/merge_fastqs.sh data/uncompressed out/merged $sid
 done
 
-# TODO: run cutadapt for all merged files
-# cutadapt -m 18 -a TGGAATTCTCGGGTGCCAAGG --discard-untrimmed \
-#     -o <trimmed_file> <input_file> > <log_file>
+echo "Removing adapters from samples" #TODO
+for  
+	
+do cutadapt -m 18 -a TGGAATTCTCGGGTGCCAAGG --discard-untrimmed -o <trimmed_file> <input_file> > <log_file>
 
 # TODO: run STAR for all trimmed files
 for fname in out/trimmed/*.fastq.gz
