@@ -32,20 +32,28 @@ bash scripts/index.sh res/clean_contaminants.fasta res/contaminants_index
 # Merge the samples into a single file
 echo "Merging uncompressed samples files"
 mkdir -p out/merged
-for sid in $(find data/uncompressed -name *.fastq -exec basename {} \; | cut -d"-" -f1)
+for sid in $(ls data/*.fastq.gz | cut -d"-" -f1 | sed 's:data/::')
+
 do
-    bash scripts/merge_fastqs.sh data/uncompressed out/merged $sid
+    bash scripts/merge_fastqs.sh data out/merged $sid
 done
 
-echo "Removing adapters from samples" #TODO
-for  
-	
-do cutadapt -m 18 -a TGGAATTCTCGGGTGCCAAGG --discard-untrimmed -o <trimmed_file> <input_file> > <log_file>
+mkdir -p out/trimmed
+mkdir -p log/cutadapt
 
-# TODO: run STAR for all trimmed files
+echo "Removing adapters from samples" 
+for  sampleid in $(ls out/merged/*.fastq.gz | cut -d "." -f1 | cut -d"/" -f3)
+do cutadapt \
+	-m 18 \
+	-a TGGAATTCTCGGGTGCCAAGG \
+	--discard-untrimmed \
+	-o out/trimmed/${sampleid}.trimmed.fastq.gz out/merged/${sampleid}.fastq.gz > log/cutadapt/${sampleid}.log
+done
+
+
 for fname in out/trimmed/*.fastq.gz
 do
-    # you will need to obtain the sample ID from the filename
+   e
     sid=#TODO
     # mkdir -p out/star/$sid
     # STAR --runThreadN 4 --genomeDir res/contaminants_idx \

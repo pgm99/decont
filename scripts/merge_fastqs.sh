@@ -2,4 +2,4 @@
 sampledir=$1
 outdir=$2
 sampleid=$3
-cat $1/$3*.fastq > $2/$3.fastq
+cat $1/$3* > $2/$3.fastq.gz
