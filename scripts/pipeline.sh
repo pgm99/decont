@@ -70,3 +70,30 @@ done
 # - cutadapt: Reads with adapters and total basepairs
 # - star: Percentages of uniquely mapped reads, reads mapped to multiple loci, and to too many loci
 # tip: use grep to filter the lines you're interested in
+
+echo "---Creating a log file containing information from cutadapt and STAR logs---"
+
+for sid in $(ls data/*.fastq.gz | cut -d "-" -f1 | sed 's:data/::' | uniq)
+do
+	echo "--------Sample: " $sid "--------" >> log/pipeline.log
+	
+	echo "Cutadapt: " >> log/pipeline.log
+	echo $(cat log/cutadapt/$sid.log | grep -e "Reads with adapters") >> log/pipeline.log
+	echo $(cat log/cutadapt/$sid.log | grep -e "Total basepairs") >> log/pipeline.log
+	echo -e "\n" >> log/pipeline.log
+
+	echo "STAR: " >> log/pipeline.log
+	echo $(cat out/star/$sid"Log.final.out" | grep -e "Uniquely mapped reads %") >> log/pipeline.log
+	echo $(cat out/star/$sid"Log.final.out" | grep -e "% of reads mapped to multiple loci") >> log/pipeline.log
+	echo $(cat out/star/$sid"Log.final.out" | grep -e "% of reads mapped to too many loci") >> log/pipeline.log
+	echo -e "\n" >>log/pipeline.log
+done
+
+
+
+
+
+
+
+
+
