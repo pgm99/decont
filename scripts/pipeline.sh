@@ -50,15 +50,19 @@ do cutadapt \
 	-o out/trimmed/${sampleid}.trimmed.fastq.gz out/merged/${sampleid}.fastq.gz > log/cutadapt/${sampleid}.log
 done
 
-
+mkdir -p out/star
 for fname in out/trimmed/*.fastq.gz
 do
-   e
-    sid=#TODO
-    # mkdir -p out/star/$sid
-    # STAR --runThreadN 4 --genomeDir res/contaminants_idx \
-    #    --outReadsUnmapped Fastx --readFilesIn <input_file> \
-    #    --readFilesCommand gunzip -c --outFileNamePrefix <output_directory>
+
+    sid=$(echo $fname | sed 's:out/trimmed/::' | cut -d "." -f1)
+    mkdir -p out/star/$sid
+    STAR \
+	    --runThreadN 4 \
+	    --genomeDir res/contaminants_index \
+	    --outReadsUnmapped Fastx \
+	    --readFilesIn $fname \
+	    --readFilesCommand gunzip -c \
+	    --outFileNamePrefix out/star/$sid
 done 
 
 # TODO: create a log file containing information from cutadapt and star logs

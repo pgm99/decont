@@ -1,0 +1,14 @@
+mkdir -p out/star
+for fname in out/trimmed/*.fastq.gz
+do
+
+    sid=$(echo $fname | sed 's:out/trimmed/::' | cut -d "." -f1)
+    mkdir -p out/star/$sid
+    STAR \
+            --runThreadN 4 \
+            --genomeDir res/contaminants_index \
+            --outReadsUnmapped Fastx \
+            --readFilesIn $fname \
+            --readFilesCommand gunzip -c \
+            --outFileNamePrefix out/star/$sid
+done
