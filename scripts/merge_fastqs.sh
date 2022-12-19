@@ -1,4 +1,6 @@
 # This script should merge all files from a given sample
+
+
 sampledir=$1
 outdir=$2
 sampleid=$3

@@ -1,0 +1,5 @@
+mkdir -p data/md5
+for file in $(ls data*fastq.gz)
+do
+	if
+

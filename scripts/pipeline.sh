@@ -1,8 +1,5 @@
-#TODO list
 #Meter comprobaciones de argumentos y errores
 #Poner los echos más bonitos
-#Poner todos los mkdir previos por si acaso
-
 
 
 #Download all the files specified in data/filenames
@@ -12,7 +9,6 @@ for url in $(cat data/urls)
 do
     bash scripts/download.sh $url data
 done
-#Uncompress all downloaded files
 
 echo "Uncompressing files"
 gunzip -k data/*.fastq.gz
@@ -21,6 +17,7 @@ mv data/*.fastq data/uncompressed
 
 # Download the contaminants fasta file, uncompress it, and 
 # filter to remove all small nuclear RNAs
+mkdir -p res
 bash scripts/download.sh https://bioinformatics.cnio.es/data/courses/decont/contaminants.fasta.gz res
 gunzip -k res/contaminants.fasta.gz
 sed /'small nuclear'/d res/contaminants.fasta > res/clean_contaminants.fasta
@@ -50,6 +47,8 @@ do cutadapt \
 	-o out/trimmed/${sampleid}.trimmed.fastq.gz out/merged/${sampleid}.fastq.gz > log/cutadapt/${sampleid}.log
 done
 
+echo "Started mapping"
+
 mkdir -p out/star
 for fname in out/trimmed/*.fastq.gz
 do
@@ -65,11 +64,7 @@ do
 	    --outFileNamePrefix out/star/$sid
 done 
 
-# TODO: create a log file containing information from cutadapt and star logs
-# (this should be a single log file, and information should be *appended* to it on each run)
-# - cutadapt: Reads with adapters and total basepairs
-# - star: Percentages of uniquely mapped reads, reads mapped to multiple loci, and to too many loci
-# tip: use grep to filter the lines you're interested in
+echo"Mapping succesfully"
 
 echo "---Creating a log file containing information from cutadapt and STAR logs---"
 
@@ -89,6 +84,7 @@ do
 	echo -e "\n" >>log/pipeline.log
 done
 
+echo "----log file created----"
 
 
 

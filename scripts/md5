@@ -1,0 +1,2 @@
+#Hay que obtener en linea el md5 de los archivos a descargar, usando curl
+#Una vez tenemos el md5, hacemos md5sum del archivo descargado para comparar
