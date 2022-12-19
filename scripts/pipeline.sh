@@ -2,18 +2,13 @@
 #Poner los echos más bonitos
 
 
-#Download all the files specified in data/filenames
+#Download all the files specified in data/filenames, and uncompress if "yes" is added as third argument
 echo "Downloading files"
 mkdir -p data
 for url in $(cat data/urls) 
 do
-    bash scripts/download.sh $url data
+    bash scripts/download.sh $url data yes
 done
-
-echo "Uncompressing files"
-gunzip -k data/*.fastq.gz
-mkdir -p data/uncompressed
-mv data/*.fastq data/uncompressed
 
 # Download the contaminants fasta file, uncompress it, and 
 # filter to remove all small nuclear RNAs
