@@ -1,5 +1,4 @@
-#Meter comprobaciones de argumentos y errores
-#Poner los echos más bonitos
+
 
 
 #Download all the files specified in data/filenames, and uncompress if "yes" is added as third argument
