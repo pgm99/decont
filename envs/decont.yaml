@@ -1,0 +1,6 @@
+name: decont
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+prefix: /home/vant/mambaforge/envs/decont

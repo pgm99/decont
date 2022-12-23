@@ -1,7 +1,8 @@
-
+i
 
 
 #Download all the files specified in data/filenames, and uncompress if "yes" is added as third argument
+
 echo "Downloading files"
 mkdir -p data
 for url in $(cat data/urls) 
@@ -11,16 +12,19 @@ done
 
 # Download the contaminants fasta file, uncompress it, and 
 # filter to remove all small nuclear RNAs
+
 mkdir -p res
 bash scripts/download.sh https://bioinformatics.cnio.es/data/courses/decont/contaminants.fasta.gz res
 gunzip -k res/contaminants.fasta.gz
 sed /'small nuclear'/d res/contaminants.fasta > res/clean_contaminants.fasta
 
 # Index the contaminants file
+
 echo "Creating contaminants STAR index"
 bash scripts/index.sh res/clean_contaminants.fasta res/contaminants_index
 
 # Merge the samples into a single file
+
 echo "Merging uncompressed samples files"
 mkdir -p out/merged
 for sid in $(ls data/*.fastq.gz | cut -d"-" -f1 | sed 's:data/::')
@@ -31,6 +35,7 @@ done
 
 mkdir -p out/trimmed
 mkdir -p log/cutadapt
+#Cutadapt the samples, removing adapters used
 
 echo "Removing adapters from samples" 
 for  sampleid in $(ls out/merged/*.fastq.gz | cut -d "." -f1 | cut -d"/" -f3)
